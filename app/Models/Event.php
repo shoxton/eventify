@@ -15,4 +15,12 @@ class Event extends Model
 
     const ACCESS_PUBLIC = 'public';
     const ACCESS_RESTRICTED = 'restricted';
+
+    /**
+     * The attendees that belong to the event.
+     */
+    public function attendees()
+    {
+        return $this->belongsToMany(Attendee::class);
+    }
 }

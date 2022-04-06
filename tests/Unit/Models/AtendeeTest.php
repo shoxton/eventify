@@ -40,4 +40,18 @@ class AttendeeTest extends TestCase
        ]);
 
    }
+
+   public function test_it_has_events_many_to_many_relationship()
+    {
+
+        $attendee = \App\Models\Attendee::factory()->create();
+        $event = \App\Models\Event::factory()->create();
+
+        $attendee->events()->save($event);
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $attendee->events);
+        $this->assertCount(1, $attendee->events);
+        $this->assertInstanceOf(\App\Models\Event::class, $attendee->events()->first());
+
+    }
 }
