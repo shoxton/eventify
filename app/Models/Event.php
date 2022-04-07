@@ -21,6 +21,14 @@ class Event extends Model
      */
     public function attendees()
     {
-        return $this->belongsToMany(Attendee::class);
+        return $this->hasMany(EventAttendee::class);
+    }
+
+    /**
+     * The schedule sessions that belongs to the event.
+     */
+    public function scheduleSessions()
+    {
+        return $this->hasMany(ScheduleSession::class);
     }
 }

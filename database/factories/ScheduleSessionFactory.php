@@ -17,7 +17,10 @@ class ScheduleSessionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->title(),
+            'access' => \App\Models\Event::ACCESS_RESTRICTED,
+            'starts_at' => \Carbon\Carbon::now(),
+            'ends_at' => \Carbon\Carbon::now()->addHours(2),
         ];
     }
 }

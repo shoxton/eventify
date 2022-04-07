@@ -5,12 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScheduleSession extends Model
+class EventAttendee extends Model
 {
     use HasFactory;
 
+
     /**
-     * The event the session belongs to.
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name'];
+
+    /**
+     * The events that belong to the attendee.
      */
     public function event()
     {

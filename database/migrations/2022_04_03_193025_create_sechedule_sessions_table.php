@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sechedule_sessions', function (Blueprint $table) {
+        Schema::create('schedule_sessions', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('event_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('stage')->nullable();
@@ -32,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sechedule_sessions');
+        Schema::dropIfExists('schedule_sessions');
     }
 };

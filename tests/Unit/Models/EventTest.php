@@ -40,17 +40,33 @@ class EventTest extends TestCase
 
     }
 
-    public function test_it_has_attendees_many_to_many_relationship()
+    public function test_it_has_many_attendees_relationship()
     {
 
         $event = \App\Models\Event::factory()->create();
-        $attendee = \App\Models\Attendee::factory()->create();
+
+        $attendee = new \App\Models\EventAttendee(['name' => 'John Doe']);
 
         $event->attendees()->save($attendee);
 
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $event->attendees);
         $this->assertCount(1, $event->attendees);
-        $this->assertInstanceOf(\App\Models\Attendee::class, $event->attendees()->first());
+        $this->assertInstanceOf(\App\Models\EventAttendee::class, $event->attendees()->first());
+
+    }
+
+    public function test_it_has_many_schedule_sessions_relationship()
+    {
+
+        $event = \App\Models\Event::factory()->create();
+
+        $scheduleSession = \App\Models\ScheduleSession::factory()->make();
+
+        $event->scheduleSessions()->save($scheduleSession);
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $event->scheduleSessions);
+        $this->assertCount(1, $event->scheduleSessions);
+        $this->assertInstanceOf(\App\Models\ScheduleSession::class, $event->scheduleSessions()->first());
 
     }
 }

@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AttendeeTest extends TestCase
+class EventAttendeeTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -13,7 +13,7 @@ class AttendeeTest extends TestCase
    public function test_it_instantiates_an_event_attendee()
    {
 
-       $attendee = new \App\Models\Attendee();
+       $attendee = new \App\Models\EventAttendee();
 
        $this->assertNotNull($attendee);
 
@@ -22,7 +22,7 @@ class AttendeeTest extends TestCase
    public function test_it_persists_event_attendee_to_db()
    {
 
-       $attendee = \App\Models\Attendee::factory()->create([
+       $attendee = \App\Models\EventAttendee::factory()->create([
            'name' => 'John Adams',
            'title' => 'CEO at XYZ',
            'description' => 'Lorem ipsum dolor sit amet.',
@@ -32,7 +32,7 @@ class AttendeeTest extends TestCase
            ])
        ]);
 
-       $this->assertDatabaseHas('attendees', [
+       $this->assertDatabaseHas('event_attendees', [
            'id' => $attendee->id,
            'name' => $attendee->name,
            'title' => $attendee->title,
@@ -41,17 +41,14 @@ class AttendeeTest extends TestCase
 
    }
 
-   public function test_it_has_events_many_to_many_relationship()
+   public function test_it_has_belongs_to_event_relationship()
     {
 
-        $attendee = \App\Models\Attendee::factory()->create();
         $event = \App\Models\Event::factory()->create();
+        $attendee = \App\Models\EventAttendee::factory()->create(['event_id' => $event->id]);
 
-        $attendee->events()->save($event);
-
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $attendee->events);
-        $this->assertCount(1, $attendee->events);
-        $this->assertInstanceOf(\App\Models\Event::class, $attendee->events()->first());
+        $this->assertInstanceOf(\App\Models\Event::class, $attendee->event);
+        $this->assertEquals($event->id, $attendee->event->id);
 
     }
 }

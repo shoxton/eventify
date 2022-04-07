@@ -31,7 +31,7 @@ class ScheduleSessionTest extends TestCase
             'access' => \App\Models\Event::ACCESS_RESTRICTED
         ]);
 
-        $this->assertDatabaseHas('sechedule_sessions', [
+        $this->assertDatabaseHas('schedule_sessions', [
             'title' => $session->title,
             'description' => $session->description,
             'stage' => $session->stage,
@@ -39,6 +39,18 @@ class ScheduleSessionTest extends TestCase
             'ends_at' => $session->ends_at,
             'access' => $session->access,
         ]);
+
+    }
+
+    public function test_it_has_belongs_to_event_relationship()
+    {
+
+        $event = \App\Models\Event::factory()->create();
+
+        $scheduleSession = \App\Models\ScheduleSession::factory()->create(['event_id' => $event->id]);
+
+        $this->assertInstanceOf(\App\Models\Event::class, $scheduleSession->event);
+        $this->assertEquals($scheduleSession->event->id, $event->id);
 
     }
 }
