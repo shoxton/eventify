@@ -16,17 +16,4 @@ class Ability extends Model
     {
         return $this->belongsToMany(Role::class);
     }
-
-    /**
-     * Assign a role to the ability.
-     */
-    public function assignRole($role)
-    {
-
-        if(is_string($role)) {
-            $role = Role::whereName($role)->firstOrFail();
-        }
-
-        $this->roles()->sync($role, false);
-    }
 }

@@ -45,34 +45,4 @@ class AbilityTest extends TestCase
         $this->assertInstanceOf(\App\Models\Role::class, $ability->roles()->first());
 
     }
-
-    public function test_ability_has_assignRole_method()
-    {
-
-        $manager = \App\Models\Role::factory()->create(['name' => 'manager']);
-        $editEvent = \App\Models\Ability::factory()->create(['name' => 'edit_event']);
-
-        $editEvent->assignRole($manager);
-
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $editEvent->roles);
-        $this->assertCount(1, $editEvent->roles);
-        $this->assertInstanceOf(\App\Models\Role::class, $editEvent->roles()->first());
-        $this->assertEquals('manager', $editEvent->roles()->first()['name']);
-
-    }
-
-    public function test_ability_assigns_role_passing_a_string()
-    {
-
-        $manager = \App\Models\Role::factory()->create(['name' => 'manager']);
-        $editEvent = \App\Models\Ability::factory()->create(['name' => 'edit_event']);
-
-        $editEvent->assignRole('manager');
-
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $editEvent->roles);
-        $this->assertCount(1, $editEvent->roles);
-        $this->assertInstanceOf(\App\Models\Role::class, $editEvent->roles()->first());
-        $this->assertEquals('manager', $editEvent->roles()->first()['name']);
-
-    }
 }

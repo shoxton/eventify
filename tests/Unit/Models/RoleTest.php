@@ -61,4 +61,33 @@ class RoleTest extends TestCase
         $this->assertEquals('edit_event', $manager->abilities()->first()['name']);
 
     }
+
+    public function test_role_allows_ability_passing_a_string()
+    {
+
+        $manager = \App\Models\Role::factory()->create(['name' => 'manager']);
+        $editEvent = \App\Models\Ability::factory()->create(['name' => 'edit_event']);
+
+        $manager->allowTo('edit_event');
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $manager->abilities);
+        $this->assertCount(1, $manager->abilities);
+        $this->assertInstanceOf(\App\Models\Ability::class, $manager->abilities()->first());
+        $this->assertEquals('edit_event', $manager->abilities()->first()['name']);
+
+    }
+
+    public function test_role_belongs_to_many_user()
+    {
+
+        $role = \App\Models\Role::factory()->create();
+        $user = \App\Models\User::factory()->create();
+
+        $role->users()->save($user);
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $role->users);
+        $this->assertCount(1, $role->users);
+        $this->assertInstanceOf(\App\Models\User::class, $role->users()->first());
+
+    }
 }

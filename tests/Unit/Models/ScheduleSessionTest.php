@@ -22,13 +22,16 @@ class ScheduleSessionTest extends TestCase
     public function test_it_persists_a_schedule_session_to_db()
     {
 
+        $event = \App\Models\Event::factory()->create();
+
         $session = \App\Models\ScheduleSession::factory()->create([
             'title' => 'Talk #1 - Lorem dolor',
             'description' => 'Lorem ipsum dolor sit amet',
             'stage' => 'Stage XYZ',
             'starts_at' => '2022-04-03 08:00:00',
             'ends_at' => '2022-04-03 10:00:00',
-            'access' => \App\Models\Event::ACCESS_RESTRICTED
+            'access' => \App\Models\Event::ACCESS_RESTRICTED,
+            'event_id' => $event->id
         ]);
 
         $this->assertDatabaseHas('schedule_sessions', [

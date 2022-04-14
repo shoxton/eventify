@@ -25,6 +25,19 @@ class Role extends Model
      */
     public function allowTo($ability)
     {
+
+        if(is_string($ability)) {
+            $ability = Ability::whereName($ability)->firstOrFail();
+        }
+
         $this->abilities()->sync($ability, false);
+    }
+
+    /**
+     * Get all the users assigned to the role.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

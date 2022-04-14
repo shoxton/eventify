@@ -21,6 +21,7 @@ class EventAttendeeTest extends TestCase
 
    public function test_it_persists_event_attendee_to_db()
    {
+       $event = \App\Models\Event::factory()->create();
 
        $attendee = \App\Models\EventAttendee::factory()->create([
            'name' => 'John Adams',
@@ -29,7 +30,8 @@ class EventAttendeeTest extends TestCase
            'additional_info' => json_encode([
                'website' => 'http://example.com',
                'twitter' => 'http://twitter.com/jadams'
-           ])
+           ]),
+           'event_id' => $event->id
        ]);
 
        $this->assertDatabaseHas('event_attendees', [
