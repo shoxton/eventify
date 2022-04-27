@@ -17,6 +17,13 @@ class Event extends Model
     const ACCESS_RESTRICTED = 'restricted';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['title', 'mode', 'access'];
+
+    /**
      * The attendees that belong to the event.
      */
     public function attendees()
@@ -30,5 +37,13 @@ class Event extends Model
     public function scheduleSessions()
     {
         return $this->hasMany(ScheduleSession::class);
+    }
+
+    /**
+     * Get the user producer of the event.
+     */
+    public function producer()
+    {
+        return $this->belongsTo(User::class, 'producer_id');
     }
 }

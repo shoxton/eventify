@@ -69,4 +69,16 @@ class EventTest extends TestCase
         $this->assertInstanceOf(\App\Models\ScheduleSession::class, $event->scheduleSessions()->first());
 
     }
+
+    public function test_event_belongs_to_user_relationship()
+    {
+
+        $user = \App\Models\User::factory()->create();
+        $event = \App\Models\Event::factory()->create(['producer_id' => $user->id]);
+
+        $this->assertNotNull($event->producer);
+        $this->assertInstanceOf(\App\Models\User::class, $event->producer);
+        $this->assertEquals($user->name, $event->producer->name);
+
+    }
 }

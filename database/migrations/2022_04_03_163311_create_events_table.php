@@ -20,6 +20,11 @@ return new class extends Migration
             $table->text('rich_text')->nullable();
             $table->string('mode');
             $table->string('access');
+
+            $table->foreignId('producer_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

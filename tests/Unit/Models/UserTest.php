@@ -52,4 +52,18 @@ class UserTest extends TestCase
         $this->assertEquals('manager', $user->roles()->first()['name']);
 
     }
+
+    public function test_user_has_many_events_relationship()
+    {
+
+        $user = \App\Models\User::factory()->create();
+        $event = \App\Models\Event::factory()->make()->toArray();
+
+        $user->events()->create($event);
+
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $user->events);
+        $this->assertCount(1, $user->events);
+        $this->assertInstanceOf(\App\Models\Event::class, $user->events()->first());
+
+    }
 }

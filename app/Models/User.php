@@ -62,4 +62,12 @@ class User extends Authenticatable
 
         $this->roles()->sync($role, false);
     }
+
+    /**
+     * Get events produced by the user.
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'producer_id');
+    }
 }
