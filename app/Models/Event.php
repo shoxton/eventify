@@ -13,8 +13,8 @@ class Event extends Model
     const MODE_ONSITE = 'onsite';
     const MODE_HYBRID = 'hybrid';
 
-    const ACCESS_PUBLIC = 'public';
     const ACCESS_RESTRICTED = 'restricted';
+    const ACCESS_PUBLIC = 'public';
 
     /**
      * The attributes that are mass assignable.
