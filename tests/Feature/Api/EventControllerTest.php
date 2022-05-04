@@ -13,13 +13,22 @@ class EventControllerTest extends TestCase
 
     public function test_event_index_route_lists_events()
     {
-
-
         $user = \App\Models\User::factory()->create();
-        $events = \App\Models\Event::factory()->times(5)->create(['producer_id' => 1]);
+        $events = \App\Models\Event::factory()->times(5)->create(['producer_id' => $user->id]);
 
 
         $this->asUser($user)->getJson('api/events')
+            ->assertJson([
+                'data' => [
+                    [
+                        'id' => $events[0]->id,
+                        'title' => $events[0]->title
+                    ]
+                ],
+                'meta' => [
+                    'total' => 5
+                ]
+            ])
             ->assertOk();
 
     }

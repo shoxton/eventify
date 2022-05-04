@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EventResource;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -14,7 +16,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return response()->json(['success' => 1]);
+
+        return EventResource::collection(Event::paginate());
     }
 
     /**
