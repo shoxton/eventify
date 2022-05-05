@@ -17,7 +17,7 @@ class EventControllerTest extends TestCase
         $events = \App\Models\Event::factory()->times(5)->create(['producer_id' => $user->id]);
 
 
-        $this->asUser($user)->getJson('api/events')
+        $this->getJson('api/events')
             ->assertJson([
                 'data' => [
                     [
@@ -33,15 +33,20 @@ class EventControllerTest extends TestCase
 
     }
 
-    public function test_event_store_route_creates_an_event()
+    public function test_event_show_route_shows_event()
     {
+        $user = \App\Models\User::factory()->create();
+        $event = \App\Models\Event::factory()->create(['producer_id' => $user->id]);
 
-        $this->post('events', [
-            'name' => 'Lorem ipsum',
-            'description' => 'Dolor sit amet consectur.',
-            'access' => \App\Models\Event::ACCESS_PUBLIC,
-            'mode' => \App\Models\Event::MODE_ONLINE
-        ])->assertOk();
+
+        $this->getJson("api/events/$event->id")
+            ->assertJson([
+                'data' => [
+                    'id' => $event->id,
+                    'title' => $event->title
+                ],
+            ])
+            ->assertOk();
 
     }
 }
