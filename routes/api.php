@@ -18,7 +18,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('events', \App\Http\Controllers\Api\EventsController::class);
+Route::apiResource('events', \App\Http\Controllers\Api\EventsController::class)
+    ->only(['show', 'index']);
+
+Route::apiResource('events', \App\Http\Controllers\Api\EventsController::class)
+    ->middleware(['auth:sanctum'])
+    ->except(['show', 'index']);
 
 Route::get('/test', function (Request $request) {
     return response()->json(['test' => 'ok']);

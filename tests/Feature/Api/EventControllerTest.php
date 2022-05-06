@@ -49,4 +49,34 @@ class EventControllerTest extends TestCase
             ->assertOk();
 
     }
+
+    public function test_event_store_route_creates_an_event()
+    {
+
+        $user = \App\Models\User::factory()->create();
+
+        $this->postJson("api/events", [])
+            ->assertUnauthorized()
+            ->assertStatus(401);
+
+        $this->asUser($user)->postJson("api/events", [
+            'title' => 'Lorem ipsum dolor',
+            'access' => 'public',
+            'mode' => 'online',
+            'producer_id' => $user->id
+        ])->assertStatus(201)
+            ->assertJson([
+                'data' => [
+                    'id' => 1,
+                    'title' => 'Lorem ipsum dolor'
+                ]
+            ]);
+
+        $this->assertDatabaseHas('events', [
+            'id' => 1,
+            'title' => 'Lorem ipsum dolor'
+        ]);
+
+
+    }
 }

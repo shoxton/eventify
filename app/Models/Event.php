@@ -21,7 +21,7 @@ class Event extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'mode', 'access'];
+    protected $fillable = ['title', 'mode', 'access', 'producer_id'];
 
     /**
      * The attendees that belong to the event.
